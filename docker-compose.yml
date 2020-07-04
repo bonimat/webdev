@@ -1,0 +1,29 @@
+version: '2'
+services:
+  webserver:
+    image: bonimat/sweb:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./webdata:/opt/webdata
+      - ./:/var/www/html
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.inernal
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./webdata/database:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "bonimat"
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+  redis:
+    image: "redis:alpine"
+
+
